@@ -5,10 +5,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 class UserController extends Controller
 {
-	public function getDashboard()
-	{
-		return view('dashboard');
-	}
+	
 
 	public function postSignUp(Request $request)
 	{
