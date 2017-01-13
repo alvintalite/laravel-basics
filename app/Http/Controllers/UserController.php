@@ -15,17 +15,27 @@ class UserController extends Controller
         $this->validate($request, [
             'email' => 'required|email|unique:users',
             'first_name' => 'required|max:120',
-            'password' => 'required|min:4'
+            'password' => 'required|min:4',
+            'last_name' => 'required|max:120',
+            'phone' => 'required|max:20'
+
+
+
+
         ]);
 
         $email = $request['email'];
         $first_name = $request['first_name'];
+        $last_name = $request['last_name'];
+        $phone = $request['phone'];
         $password = bcrypt($request['password']);
 
         $user = new User();
         $user->email = $email;
         $user->first_name = $first_name;
         $user->password = $password;
+        $user->last_name = $last_name;
+        $user->phone = $phone;
 
         $user->save();
 
@@ -62,14 +72,32 @@ class UserController extends Controller
     {
         $this->validate($request, [
            'first_name' => 'required|max:120'
+           
+
         ]);
 
         $user = Auth::user();
         $old_name = $user->first_name;
+        $old_name = $user->last_name;
+        $old_name = $user->phone;
+        $email = $user->email;
+        $password=$user->password;
+
+
+
+
         $user->first_name = $request['first_name'];
+        $user->last_name = $request['last_name'];
+        $user->phone = $request['phone'];
+        $user->email = $request['email'];
+        $user->password = $request['password'];
+
         $user->update();
         $file = $request->file('image');
         $filename = $request['first_name'] . '-' . $user->id . '.jpg';
+        
+
+
         $old_filename = $old_name . '-' . $user->id . '.jpg';
         $update = false;
         if (Storage::disk('local')->has($old_filename)) {
@@ -83,6 +111,7 @@ class UserController extends Controller
         if ($update && $old_filename !== $filename) {
             Storage::delete($old_filename);
         }
+
         return redirect()->route('account');
     }
 

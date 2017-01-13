@@ -35,7 +35,8 @@ Route::get('/logout', [
 
 Route::get('/account', [
     'uses' => 'UserController@getAccount',
-    'as' => 'account'
+    'as' => 'account',
+    'middleware' => 'auth'
 ]);
 
 Route::post('/upateaccount', [
