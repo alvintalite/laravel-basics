@@ -81,7 +81,8 @@ class UserController extends Controller
         $old_name = $user->last_name;
         $old_name = $user->phone;
         $email = $user->email;
-        $password=$user->password;
+        $password= $user->password;
+        
 
 
 
@@ -90,7 +91,7 @@ class UserController extends Controller
         $user->last_name = $request['last_name'];
         $user->phone = $request['phone'];
         $user->email = $request['email'];
-        $user->password = $request['password'];
+        $user->password = bcrypt($request['password']);
 
         $user->update();
         $file = $request->file('image');
